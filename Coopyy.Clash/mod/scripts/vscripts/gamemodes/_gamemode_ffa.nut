@@ -1,5 +1,10 @@
 global function FFA_Init
 
+#if SERVER
+global function SetupLoadouts
+global function GetItemToUse
+#endif  
+
 const array<string> guns = [
     "none",
     "random",
@@ -202,19 +207,17 @@ void function SetupRound()
 
     // do spawns
 
-    SetupLoadouts()
+    foreach (entity player in GetPlayerArray())
+        if (IsValid(player))
+            SetupLoadouts(player)
 }
 
-void function SetupLoadouts() {
+void function SetupLoadouts(entity player) {
 
     PilotLoadoutDef loadout = GetPilotLoadoutFromPersistentData(player, GetPersistentSpawnLoadoutIndex(player, "pilot"))
     array<string> offhandExclusions = []
 
     loadout.name = "???"
-
-    loadout.primary = RandomiserGetRandomPilotWeapon()
-    loadout.primaryAttachments = []
-    loadout.primaryMods = []
 
     string primary = GetItemToUse(guns, "clash_primary");
     if (primary != "none")
@@ -240,22 +243,20 @@ void function SetupLoadouts() {
 
     string tac = GetItemToUse(offhands, "clash_tactical")
     if (tac != "none")
-        loadout.special = tac;
+        loadout.special = tac
 
     string ord = GetItemToUse(offhands, "clash_ordnance")
     if (ord != "none")
-        loadout.ordnance = ord;
+        loadout.ordnance = ord
 
     string melee = GetItemToUse(melees, "clash_melee");
     if (melee != "none")
     {
-        loadout.melee = 
+        loadout.melee = melee
         loadout.meleeMods = []
     }
 
-    foreach (entity player in GetPlayerArray())
-        if (IsValid(player))
-            GivePilotLoadout(player, loadout)
+    GivePilotLoadout(player, loadout)
 }
 
 void function CheckWin(bool roundend) 
@@ -409,7 +410,7 @@ entity function GetOpponent(entity player) {
 
 
 string function GetItemToUse(array<string> list, string pvarslot) 
-[
+{
     int weaponindex = GetCurrentPlaylistVarInt(pvarslot, 0)
     string weap = list[weaponindex]
 
@@ -417,4 +418,4 @@ string function GetItemToUse(array<string> list, string pvarslot)
         return list[2 + RandomInt(list.len() - 2)]
 
     return weap
-]
+}
