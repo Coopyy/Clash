@@ -1,0 +1,23 @@
+{
+	"Name" : "Coopyy.Clash",
+	"Description" : "Tournament style 1v1 mod for FFA",
+	"Version": "1.0.0",
+	"LoadPriority": 2,
+
+	"Scripts": [
+		{
+			"Path": "sh_clash.gnut",
+			"RunOn": "MP",
+			"ClientCallback": {
+				"After": "Clash_Init"
+			},
+			"ServerCallback": {
+				"After": "Clash_Init"
+			}
+		}
+	],
+
+	"Localisation": [
+		"resource/clash_localisation_%language%.txt"
+	]
+}
