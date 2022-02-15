@@ -376,10 +376,6 @@ void function SetupMatches()
             SendHudMessage(ent1, "Your Opponent: " + plr1, -1, 0.2, 255, 200, 200, 255, 0.15, 5, 0.15 )
     }
 
-    foreach (entity player in GetPlayerArray())
-        if (!IsAlive(player))
-            .RespawnPlayer( null )
-
     int x = 0
     foreach (key, value in file.matchups) 
     {
