@@ -86,22 +86,22 @@ const array<string> melees = [
 	"melee_titan_sword"
 ]
 
-const array<Vector> possspawns1 = [
+const array<vector> possspawns1 = [
     <890.238, 3629.25, 4483>, //0 
     <293.426, 3071.25, 4483>
 ]
 
-const array<Vector> possspawns2 = [
+const array<vector> possspawns2 = [
     <890.238, 4018.49, 4483>,
     <293.426, 4586.78, 4483>
 ]
 
-const array<Vector> possangles1 = [
+const array<vector> possangles1 = [
     <0, -90, 0>,
     <0, 90, 0>
 ]
 
-const array<Vector> possangles2 = [
+const array<vector> possangles2 = [
     <0, 90, 0>,
     <0, -90, 0>
 ]
