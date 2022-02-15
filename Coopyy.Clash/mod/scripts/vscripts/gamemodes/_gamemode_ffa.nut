@@ -131,6 +131,9 @@ void function FFA_Init()
         PrecacheModel($"models/props/generator_coop/generator_coop_blackbox.mdl")
         PrecacheModel($"models/IMC_base/barrier_low_airport_IMC.mdl")
 
+		AddClientCommandCallback("!matchups", CommandMatchups)
+		AddClientCommandCallback("!matchup", CommandMatchups)
+
         SetLoadoutGracePeriodEnabled( false ) // prevent modifying loadouts with grace period
         SetWeaponDropsEnabled( false )
         ClassicMP_ForceDisableEpilogue( true )
@@ -326,6 +329,14 @@ void function DoMap() {
 	AddMapProp( $"models/IMC_base/barrier_low_airport_IMC.mdl",  <0, 0, 500 * T> + < 527.809, 3567.55, 4719.13 >, < 0, -0, 0 >, true, 6000)
 	}
 	}
+}
+
+bool function CommandMatchups(entity player, array<string> args) 
+{
+	string s = "Current Matchups\n------------------\n"
+	foreach (key, value in file.matchups)
+		s += key + " vs " + value
+	SendHudMessage(playerc, s, -1, 0.2, 200, 200, 255, 255, 0.15, 5, 0.15 )
 }
 
 void function AddMapProp( asset a, vector pos, vector ang, bool mantle, int fade)
@@ -567,7 +578,7 @@ void function OnPlayerRespawned_Threaded( entity player )
     {
 		PlayerEarnMeter_SetMode( player, eEarnMeterMode.DISABLED )
         if (file.canstart && file.playingplayers.len() > 0 && !file.playingplayers.contains(player.GetPlayerName()))
-            SendHudMessage(player, "You Are Eliminated, Now Playing FFA", -1, 0.2, 255, 255, 255, 255, 0.15, 15, 0.15 )
+            SendHudMessage(player, "You Are Eliminated, Now Playing FFA\nUse !matchups in console to view current status", -1, 0.2, 255, 255, 255, 255, 0.15, 15, 0.15 )
     }
 }
 
