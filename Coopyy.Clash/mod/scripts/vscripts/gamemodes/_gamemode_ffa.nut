@@ -86,6 +86,26 @@ const array<string> melees = [
 	"melee_titan_sword"
 ]
 
+const array<Vector> possspawns1 = [
+    <890.238, 3629.25, 4483>, //0 
+    <293.426, 3071.25, 4483>
+]
+
+const array<Vector> possspawns2 = [
+    <890.238, 4018.49, 4483>,
+    <293.426, 4586.78, 4483>
+]
+
+const array<Vector> possangles1 = [
+    <0, -90, 0>,
+    <0, 90, 0>
+]
+
+const array<Vector> possangles2 = [
+    <0, 90, 0>,
+    <0, -90, 0>
+]
+
 struct {
     int maxplayers
 	array<string> playingplayers
@@ -383,20 +403,21 @@ void function SetupMatches()
     }
 
     int x = 0
+    int index = RandomInt(possspawns1.len())
     foreach (key, value in file.matchups) 
     {
         entity player = GetPlayerFromName(key)
         if (IsValid(player)) 
         {
-            player.SetOrigin(<890.238, 4018.49, 4483> + <0, 0, 500 * x>)
-            player.SetAngles(<0, 90, 0>)
+            player.SetOrigin(possspawns1[index] + <0, 0, 500 * x>)
+            player.SetAngles(possangles1[index])
         }
 
         player = GetPlayerFromName(value)
         if (IsValid(player)) 
         {
-            player.SetOrigin(<890.238, 3629.25, 4483> + <0, 0, 500 * x>)
-            player.SetAngles(<0, -90, 0>)
+            player.SetOrigin(possspawns2[index] + <0, 0, 500 * x>)
+            player.SetAngles(possangles2[index])
         }
         x++
     }
