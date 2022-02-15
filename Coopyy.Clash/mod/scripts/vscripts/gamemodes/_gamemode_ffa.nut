@@ -517,8 +517,6 @@ void function OnPlayerKilled( entity victim, entity attacker, var damageInfo )
         if (file.canstart && file.playingplayers.len() > 0) 
         {
 		    attacker.AddToPlayerGameStat( PGS_ASSAULT_SCORE, 1 )
-            AddTeamScore( attacker.GetTeam(), 1 )
-
             WipeScore(victim)
         }
 	}
