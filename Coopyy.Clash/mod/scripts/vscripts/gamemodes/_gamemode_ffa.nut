@@ -496,6 +496,7 @@ void function HandleWin(entity player)
 {
     if (IsValid(player)) {
         AddTeamScore( player.GetTeam(), 1 )
+        player.AddToPlayerGameStat( PGS_ASSAULT_SCORE, 1 )
         SendHudMessage(player, "You Win This Round!", -1, 0.2, 200, 255, 200, 255, 0.15, 5, 0.15 )
         player.FreezeControlsOnServer()
     }
@@ -515,10 +516,7 @@ void function OnPlayerKilled( entity victim, entity attacker, var damageInfo )
 	{
         SetRoundWinningKillReplayAttacker(attacker)
         if (file.canstart && file.playingplayers.len() > 0) 
-        {
-		    attacker.AddToPlayerGameStat( PGS_ASSAULT_SCORE, 1 )
             WipeScore(victim)
-        }
 	}
     if (file.canstart && file.playingplayers.len() > 0)
         CheckWin(false)
