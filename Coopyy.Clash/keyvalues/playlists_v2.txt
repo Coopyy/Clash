@@ -51,6 +51,10 @@ playlists
 			{
 				ffa
 				{
+					maps
+					{
+						mp_drydock 1
+					}
 				}
 			}
 		}

@@ -606,7 +606,11 @@ entity function GetOpponent(entity player)
 
 string function GetItemToUse(array<string> list, string pvarslot) 
 {
-    int weaponindex = GetCurrentPlaylistVarInt(pvarslot, 0)
+    int weaponindex
+    if (pvarslot == "clash_primary")
+        weaponindex = GetCurrentPlaylistVarInt(pvarslot, 2) //weird thing
+    else
+        weaponindex = GetCurrentPlaylistVarInt(pvarslot, 0)
     string weap = list[weaponindex]
 
     if (weap == "random")
