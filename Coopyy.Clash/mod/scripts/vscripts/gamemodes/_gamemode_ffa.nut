@@ -336,7 +336,7 @@ bool function CommandMatchups(entity player, array<string> args)
 	string s = "Current Matchups\n------------------\n"
 	foreach (key, value in file.matchups)
 		s += key + " vs " + value
-	SendHudMessage(player, s, -1, 0.2, 200, 200, 255, 255, 0.15, 5, 0.15 )
+	SendHudMessage(player, s, -1, 0.2, 200, 200, 255, 255, 0.15, 15, 0.15 )
 	return true
 }
 
