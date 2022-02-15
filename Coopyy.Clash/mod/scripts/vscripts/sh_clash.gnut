@@ -77,8 +77,6 @@ const array<string> melees = [
 
 void function Clash_Init() {
 
-	AddPrivateMatchModeSettingEnum("#MODE_SETTING_CATEGORY_CLASH", "clash_enabled", ["#SETTING_DISABLED", "#SETTING_ENABLED"], "1")
-
 	array<string> localisedguns = ["None", "Random"]
 	array<string> localisedoffhands = ["None", "Random"]
 	array<string> localisedmelees = ["None", "Random"]

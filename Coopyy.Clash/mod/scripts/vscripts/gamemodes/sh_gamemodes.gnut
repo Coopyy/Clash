@@ -594,10 +594,11 @@ int function GameMode_GetScoreLimit( string gameModeName )
 	return GetCurrentPlaylistVarInt( "scorelimit", file.gameModeDefs[gameModeName].defaultScoreLimit )
 }
 
+
 int function GameMode_GetRoundScoreLimit( string gameModeName )
 {
 	Assert( gameModeName in file.gameModeDefs, "No MP Gametype specified in _settings.nut" )
-
+	#if SERVER
     if (IsFFAGame())
     {
         int maxplayers = GetCurrentPlaylistVarInt( "max_players", 0 );
@@ -609,9 +610,10 @@ int function GameMode_GetRoundScoreLimit( string gameModeName )
         else if (maxplayers == 16)
             return 4
     }
-
+	#endif
 	return GetCurrentPlaylistVarInt( "roundscorelimit", file.gameModeDefs[gameModeName].defaultRoundScoreLimit )
 }
+
 
 int function GameMode_GetTimeLimit( string gameModeName )
 {
