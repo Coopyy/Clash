@@ -1,4 +1,3 @@
-untyped
 global function FFA_Init
 
 #if SERVER
@@ -106,6 +105,12 @@ void function FFA_Init()
     file.maxplayers = GetCurrentPlaylistVarInt( "max_players", 0 );
     if ((file.maxplayers == 4 || file.maxplayers == 8 || file.maxplayers == 16) && GetMapName() == "mp_drydock")
     {
+        PrecacheModel($"models/crashsite/crashsite_ship_metal_panel_01.mdl")
+        PrecacheModel($"models/IMC_base/outer_gate_imc_closed.mdl")
+        PrecacheModel($"models/ola/sewer_staircase_01.mdl")
+        PrecacheModel($"models/props/generator_coop/generator_coop_blackbox.mdl")
+        PrecacheModel($"models/IMC_base/barrier_low_airport_IMC.mdl")
+
         SetLoadoutGracePeriodEnabled( false ) // prevent modifying loadouts with grace period
         SetWeaponDropsEnabled( false )
         ClassicMP_ForceDisableEpilogue( true )
@@ -305,7 +310,6 @@ void function DoMap() {
 
 void function AddMapProp( asset a, vector pos, vector ang, bool mantle, int fade)
 {
-    PrecacheModel(a)
     entity e = CreatePropDynamicLightweight(a, pos, ang, SOLID_VPHYSICS, 6000.0)
     
     if(mantle) e.AllowMantle()
@@ -384,8 +388,6 @@ void function SetupMatches()
         entity player = GetPlayerFromName(key)
         if (IsValid(player)) 
         {
-            if (!IsAlive(player))
-                player.RespawnPlayer(null)
             player.SetOrigin(<890.238, 4018.49, 4483> + <0, 0, 500 * x>)
             player.SetAngles(<0, 90, 0>)
         }
@@ -393,8 +395,6 @@ void function SetupMatches()
         player = GetPlayerFromName(value)
         if (IsValid(player)) 
         {
-            if (!IsAlive(player))
-                player.RespawnPlayer(null)
             player.SetOrigin(<890.238, 3629.25, 4483> + <0, 0, 500 * x>)
             player.SetAngles(<0, -90, 0>)
         }
