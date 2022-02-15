@@ -1,3 +1,4 @@
+untyped
 global function FFA_Init
 
 #if SERVER
