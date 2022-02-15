@@ -337,6 +337,7 @@ bool function CommandMatchups(entity player, array<string> args)
 	foreach (key, value in file.matchups)
 		s += key + " vs " + value
 	SendHudMessage(player, s, -1, 0.2, 200, 200, 255, 255, 0.15, 5, 0.15 )
+	return true
 }
 
 void function AddMapProp( asset a, vector pos, vector ang, bool mantle, int fade)
