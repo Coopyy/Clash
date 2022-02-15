@@ -6,7 +6,7 @@ global function GetItemToUse
 #endif  
 
 const array<string> guns = [
-    "none",
+    "",
     "random",
 	"mp_weapon_alternator_smg", // 2
 	"mp_weapon_arc_launcher", // 3
@@ -51,7 +51,7 @@ const array<string> guns = [
 ]
 
 const array<string> offhands = [
-    "none",
+    "",
     "random",
 	"mp_ability_cloak", // 2
 	"mp_ability_grapple",
@@ -76,7 +76,7 @@ const array<string> offhands = [
 ]
 
 const array<string> melees = [
-    "none",
+    "",
     "random",
 	"melee_pilot_emptyhanded", // 2
 	"melee_pilot_arena",
@@ -91,19 +91,26 @@ struct {
 	array<string> playingplayers
     table<string, string> matchups = {}
     bool canstart = false
+
+    string primary
+    string secondary
+    string weapon3
+    string special
+    string ordnance
+    string melee
 } file
 
 void function FFA_Init()
 {
     file.maxplayers = GetCurrentPlaylistVarInt( "max_players", 0 );
-    if (file.maxplayers == 4 || file.maxplayers == 8 || file.maxplayers == 16) 
+    if ((file.maxplayers == 4 || file.maxplayers == 8 || file.maxplayers == 16) && GetMapName() == "mp_drydock")
     {
         SetLoadoutGracePeriodEnabled( false ) // prevent modifying loadouts with grace period
         SetWeaponDropsEnabled( false )
         ClassicMP_ForceDisableEpilogue( true )
         SetShouldUseRoundWinningKillReplay( true )
-        SetRoundBased( true )
-        SetRespawnsEnabled( true )
+        //SetRoundBased( true )
+        //SetRespawnsEnabled( true )
         Riff_ForceTitanAvailability( eTitanAvailability.Never )
         Riff_ForceBoostAvailability( eBoostAvailability.Disabled )
 
@@ -113,6 +120,7 @@ void function FFA_Init()
         AddCallback_GameStateEnter(eGameState.Prematch, SetupRound);
         SetTimeoutWinnerDecisionFunc( TimeoutCheck )
         thread StartGame()
+        thread DoMap()
     }
     else //default ffa
     {
@@ -121,8 +129,190 @@ void function FFA_Init()
     }
 }
 
+void function DoMap() {
+	for (int T = 0; T < 9; T++)
+	{
+        wait 1
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 127.747, 2956.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 127.747, 3082.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 127.747, 3207.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 127.747, 3333.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 127.747, 3458.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 127.747, 3584.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 127.747, 3709.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 127.747, 3835.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 127.747, 3960.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 127.747, 4086.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 127.747, 4211.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 127.747, 4337.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 127.747, 4462.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 127.747, 4588.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 127.747, 4713.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 297.138, 2956.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 466.529, 2956.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 635.92, 2956.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 805.311, 2956.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 974.702, 2956.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 1144.09, 2956.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 1144.09, 3082.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 1144.09, 3207.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 1144.09, 3333.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 1144.09, 3458.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 1144.09, 3584.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 1144.09, 3709.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 1144.09, 3835.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 1144.09, 3960.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 1144.09, 4086.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 1144.09, 4211.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 1144.09, 4337.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 1144.09, 4462.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 1144.09, 4588.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 1144.09, 4713.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 297.138, 4713.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 466.529, 4713.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 635.92, 4713.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 805.311, 4713.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 974.702, 4713.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 1144.09, 4713.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 297.138, 3082.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 297.138, 3207.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 297.138, 3333.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 297.138, 3458.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 297.138, 3584.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 297.138, 3709.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 297.138, 3835.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 297.138, 3960.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 297.138, 4086.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 297.138, 4211.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 297.138, 4337.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 297.138, 4462.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 297.138, 4588.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 297.138, 4713.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 466.529, 4588.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 466.529, 4462.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 466.529, 4337.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 466.529, 4211.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 466.529, 4086.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 466.529, 3960.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 466.529, 3835.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 466.529, 3709.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 466.529, 3584.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 466.529, 3458.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 466.529, 3333.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 466.529, 3207.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 466.529, 3082.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 635.92, 3082.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 635.92, 3207.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 635.92, 3333.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 635.92, 3458.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 635.92, 3584.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 635.92, 3709.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 635.92, 3835.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 635.92, 3960.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 635.92, 4086.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 635.92, 4211.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 635.92, 4337.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 635.92, 4462.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 635.92, 4588.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 805.311, 4588.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 805.311, 4462.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 805.311, 4337.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 805.311, 4211.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 805.311, 4086.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 805.311, 3960.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 805.311, 3835.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 805.311, 3709.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 805.311, 3584.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 805.311, 3458.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 805.311, 3333.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 805.311, 3207.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 805.311, 3082.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 974.702, 3082.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 974.702, 3207.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 974.702, 3333.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 974.702, 3458.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 974.702, 3584.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 974.702, 3709.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 974.702, 3835.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 974.702, 3960.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 974.702, 4086.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 974.702, 4211.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 974.702, 4337.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 974.702, 4462.58, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 974.702, 4588.08, 4479.69 >, < 0, 0, 0 >, true, 6000)
+	if (T < 8)
+	{
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 63.3655, 3183.24, 4479.89 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 63.3655, 3822.84, 4479.89 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 63.3655, 4462.44, 4479.89 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 1258.29, 3854.67, 4463.87 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 1258.29, 3215.06, 4463.87 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 1258.29, 4494.27, 4463.87 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 927.343, 4783.45, 4479.48 >, < 0, 90, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 287.742, 4783.45, 4479.48 >, < 0, 90, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 319.27, 2880.65, 4463.8 >, < 0, 90, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 958.871, 2880.65, 4463.8 >, < 0, 90, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 319.27, 2880.65, 4700.79 >, < 0, 90, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 958.871, 2880.65, 4700.79 >, < 0, 90, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 1258.29, 3215.06, 4700.86 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 1258.29, 3854.67, 4700.86 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 1258.29, 4494.27, 4700.86 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 927.343, 4783.45, 4700.47 >, < 0, 90, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 287.742, 4783.45, 4700.47 >, < 0, 90, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 63.3655, 4462.44, 4700.87 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 63.3655, 3822.84, 4700.87 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 63.3655, 3183.24, 4700.87 >, < 0, 0, 0 >, true, 6000)
+	AddMapProp( $"models/ola/sewer_staircase_01.mdl",  <0, 0, 500 * T> + < 143.052, 4255.96, 4495.68 >, < 0, 90, 0 >, true, 6000)
+	AddMapProp( $"models/ola/sewer_staircase_01.mdl",  <0, 0, 500 * T> + < 271.552, 4255.96, 4495.68 >, < 0, 90, 0 >, true, 6000)
+	AddMapProp( $"models/ola/sewer_staircase_01.mdl",  <0, 0, 500 * T> + < 160.15, 3392.12, 4495.02 >, < 0, -90, 0 >, true, 6000)
+	AddMapProp( $"models/ola/sewer_staircase_01.mdl",  <0, 0, 500 * T> + < 288.649, 3392.12, 4495.02 >, < 0, -90, 0 >, true, 6000)
+	AddMapProp( $"models/ola/sewer_staircase_01.mdl",  <0, 0, 500 * T> + < 160.105, 3568.05, 4607.01 >, < 0, -90, 0 >, true, 6000)
+	AddMapProp( $"models/ola/sewer_staircase_01.mdl",  <0, 0, 500 * T> + < 288.605, 3568.05, 4607.01 >, < 0, -90, 0 >, true, 6000)
+	AddMapProp( $"models/ola/sewer_staircase_01.mdl",  <0, 0, 500 * T> + < 143.916, 4079.96, 4607 >, < 0, 90, 0 >, true, 6000)
+	AddMapProp( $"models/ola/sewer_staircase_01.mdl",  <0, 0, 500 * T> + < 272.416, 4079.96, 4607 >, < 0, 90, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 271.076, 3871.95, 4431.62 >, < 0, 90, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 271.666, 3775.85, 4431.07 >, < 0, 90, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 271.382, 3824.01, 4431.21 >, < 0, 90, 0 >, true, 6000)
+	AddMapProp( $"models/ola/sewer_staircase_01.mdl",  <0, 0, 500 * T> + < 400.916, 4079.96, 4607 >, < 0, 90, 0 >, true, 6000)
+	AddMapProp( $"models/ola/sewer_staircase_01.mdl",  <0, 0, 500 * T> + < 400.052, 4255.96, 4495.68 >, < 0, 90, 0 >, true, 6000)
+	AddMapProp( $"models/ola/sewer_staircase_01.mdl",  <0, 0, 500 * T> + < 417.105, 3568.05, 4607.01 >, < 0, -90, 0 >, true, 6000)
+	AddMapProp( $"models/ola/sewer_staircase_01.mdl",  <0, 0, 500 * T> + < 417.149, 3392.12, 4495.02 >, < 0, -90, 0 >, true, 6000)
+	AddMapProp( $"models/props/generator_coop/generator_coop_blackbox.mdl",  <0, 0, 500 * T> + < 976.991, 3824.06, 4480.12 >, < 0, -90, 0 >, true, 6000)
+	AddMapProp( $"models/props/generator_coop/generator_coop_blackbox.mdl",  <0, 0, 500 * T> + < 880.925, 3823.86, 4479.65 >, < 0, -90, 0 >, true, 6000)
+	AddMapProp( $"models/props/generator_coop/generator_coop_blackbox.mdl",  <0, 0, 500 * T> + < 1225.99, 3824.06, 4480.12 >, < 0, -90, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 592.478, 3824.04, 4718.62 >, < 0, -90, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 717.977, 3824.04, 4718.62 >, < 0, -90, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 717.977, 3654.65, 4718.62 >, < 0, -90, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 592.478, 3654.65, 4718.62 >, < 0, -90, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 843.477, 3654.65, 4718.62 >, < 0, -90, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 968.977, 3654.65, 4718.62 >, < 0, -90, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 1094.48, 3654.65, 4718.62 >, < 0, -90, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 592.478, 3993.43, 4718.62 >, < 0, -90, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 717.977, 3993.43, 4718.62 >, < 0, -90, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 843.477, 3993.43, 4718.62 >, < 0, -90, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 968.977, 3993.43, 4718.62 >, < 0, -90, 0 >, true, 6000)
+	AddMapProp( $"models/crashsite/crashsite_ship_metal_panel_01.mdl",  <0, 0, 500 * T> + < 1094.48, 3993.43, 4718.62 >, < 0, -90, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 800.546, 4111.44, 4431.38 >, < 0, -0, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/outer_gate_imc_closed.mdl",  <0, 0, 500 * T> + < 800.007, 3536.34, 4431.06 >, < 0, -180, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/barrier_low_airport_IMC.mdl",  <0, 0, 500 * T> + < 623.553, 4063.62, 4719.19 >, < 0, 90, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/barrier_low_airport_IMC.mdl",  <0, 0, 500 * T> + < 623.203, 3567.62, 4719.53 >, < 0, 90, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/barrier_low_airport_IMC.mdl",  <0, 0, 500 * T> + < 539.848, 4064.76, 4719.73 >, < 0, -180, 0 >, true, 6000)
+	AddMapProp( $"models/IMC_base/barrier_low_airport_IMC.mdl",  <0, 0, 500 * T> + < 527.809, 3567.55, 4719.13 >, < 0, -0, 0 >, true, 6000)
+	}
+	}
+}
+
+void function AddMapProp( asset a, vector pos, vector ang, bool mantle, int fade)
+{
+    entity e = CreatePropDynamicLightweight(a, pos, ang, SOLID_VPHYSICS, 6000.0)
+    
+    if(mantle) e.AllowMantle()
+    e.SetScriptName( "editor_placed_prop" )
+}
+
 void function OnPlayerDisconnected(entity player)
 {   
+    WipeScore(player)
     thread DisconnectedThread(player)
 }
 
@@ -134,13 +324,13 @@ void function DisconnectedThread(entity player) {
 
 void function StartGame()
 {
+    file.canstart = false
     while (GetPlayerArray().len() < file.maxplayers) 
     {
         wait 10.0
         foreach (entity player in GetPlayerArray())
             SendHudMessage( player, "Waiting For Players (" + GetPlayerArray().len() + "/" + file.maxplayers + ")" , -1, 0.2, 200, 200, 255, 255, 0.15, 999, 0 )
-        SetServerVar( "roundEndTime", Time() + 60.0 ) // reset this shit
-        
+        SetTimeLeft(Time() + GameMode_GetRoundTimeLimit( GAMETYPE ) * 60.0)
     }
 
     InitPlayers()
@@ -148,15 +338,15 @@ void function StartGame()
 
 void function InitPlayers()
 {
-	SetServerVar( "roundEndTime", Time() + 60.0 )
-	SetRespawnsEnabled( false ) // lol owned
+	SetTimeLeft(Time() + GameMode_GetRoundTimeLimit( GAMETYPE ) * 60.0)
+	//SetRespawnsEnabled( false )
 
 	array<entity> players = GetPlayerArray()
 	foreach ( entity plr in players ) {
         file.playingplayers.append(plr.GetPlayerName()) //should(tm) always be 4 8 or 16
     }
     file.canstart = true
-    SetServerVar( "roundEndTime", Time())
+    SetTimeLeft(Time())
 }
 
 void function SetupMatches() 
@@ -186,75 +376,75 @@ void function SetupMatches()
             SendHudMessage(ent1, "Your Opponent: " + plr1, -1, 0.2, 255, 200, 200, 255, 0.15, 5, 0.15 )
     }
 
+    foreach (entity player in GetPlayerArray())
+        if (!IsAlive(player))
+            .RespawnPlayer( null )
+
+    int x = 0
+    foreach (key, value in file.matchups) 
+    {
+        entity player = GetPlayerFromName(key)
+        if (IsValid(player)) 
+        {
+            if (!IsAlive(player))
+                player.RespawnPlayer(null)
+            player.SetOrigin(<890.238, 4018.49, 4483> + <0, 0, 500 * x>)
+            player.SetAngles(<0, 90, 0>)
+        }
+
+        player = GetPlayerFromName(value)
+        if (IsValid(player)) 
+        {
+            if (!IsAlive(player))
+                player.RespawnPlayer(null)
+            player.SetOrigin(<890.238, 3629.25, 4483> + <0, 0, 500 * x>)
+            player.SetAngles(<0, -90, 0>)
+        }
+        x++
+    }
+
     wait 5
     CheckWin(false) 
 }
 
 void function SetupRound() 
 {
-    /*if (file.maxplayers == 4)
-        SetPlaylistVarOverride( "roundscorelimit", "2" )
-    else if (file.maxplayers == 8)
-        SetPlaylistVarOverride( "roundscorelimit", "3" )
-    else if (file.maxplayers == 16)
-        SetPlaylistVarOverride( "roundscorelimit", "4" )*/
+    file.primary = GetItemToUse(guns, "clash_primary") 
+    file.secondary = GetItemToUse(guns, "clash_secondary") 
+    file.weapon3 = GetItemToUse(guns, "clash_at") 
+    file.special = GetItemToUse(offhands, "clash_tactical") 
+    file.ordnance = GetItemToUse(offhands, "clash_ordnance") 
+    file.melee = GetItemToUse(melees, "clash_melee") 
 
     if (!file.canstart)
         return
 
     PlayMusicToAll( eMusicPieceID.GAMEMODE_1 )
-    SetupMatches() 
 
-    // do spawns
-
-    foreach (entity player in GetPlayerArray())
-        if (IsValid(player))
-            SetupLoadouts(player)
+    thread SetupMatches() 
 }
 
 void function SetupLoadouts(entity player) {
 
     PilotLoadoutDef loadout = GetPilotLoadoutFromPersistentData(player, GetPersistentSpawnLoadoutIndex(player, "pilot"))
-    array<string> offhandExclusions = []
-
     loadout.name = "???"
 
-    string primary = GetItemToUse(guns, "clash_primary");
-    if (primary != "none")
-    {
-        loadout.primary = primary
-        loadout.primaryAttachments = []
-        loadout.primaryMods = []
-    }
+    loadout.primary = file.primary
+    loadout.primaryAttachments = []
+    loadout.primaryMods = []
 
-    string secondary = GetItemToUse(guns, "clash_secondary");
-    if (secondary != "none")
-    {
-        loadout.secondary = secondary
-        loadout.secondaryMods = []
-    }
+    loadout.secondary = file.secondary
+    loadout.secondaryMods = []
 
-    string weapon3 = GetItemToUse(guns, "clash_at");
-    if (weapon3 != "none")
-    {
-        loadout.weapon3 = weapon3
-        loadout.weapon3Mods = []
-    }
+    loadout.weapon3 = file.weapon3
+    loadout.weapon3Mods = []
 
-    string tac = GetItemToUse(offhands, "clash_tactical")
-    if (tac != "none")
-        loadout.special = tac
+    loadout.special = file.special
 
-    string ord = GetItemToUse(offhands, "clash_ordnance")
-    if (ord != "none")
-        loadout.ordnance = ord
+    loadout.ordnance = file.ordnance
 
-    string melee = GetItemToUse(melees, "clash_melee");
-    if (melee != "none")
-    {
-        loadout.melee = melee
-        loadout.meleeMods = []
-    }
+    loadout.melee = file.melee
+    loadout.meleeMods = []
 
     GivePilotLoadout(player, loadout)
 }
@@ -302,7 +492,7 @@ void function CheckWin(bool roundend)
     }
 
     if (!roundend && file.matchups.len() == 0)
-        SetServerVar( "roundEndTime", Time()) //ghetto way to end round but w/e
+        SetTimeLeft(Time()) //ghetto way to end round but w/e
 }
 
 void function HandleWin(entity player) 
@@ -327,13 +517,29 @@ void function OnPlayerKilled( entity victim, entity attacker, var damageInfo )
 	if ( victim != attacker && victim.IsPlayer() && attacker.IsPlayer() && GetGameState() == eGameState.Playing )
 	{
         SetRoundWinningKillReplayAttacker(attacker)
-		attacker.AddToPlayerGameStat( PGS_ASSAULT_SCORE, 1 )
+        if (file.canstart && file.playingplayers.len() > 0) 
+        {
+		    attacker.AddToPlayerGameStat( PGS_ASSAULT_SCORE, 1 )
+            AddTeamScore( attacker.GetTeam(), 1 )
+
+            WipeScore(victim)
+        }
 	}
-    CheckWin(false)
+    if (file.canstart && file.playingplayers.len() > 0)
+        CheckWin(false)
 }
+
+void function WipeScore(entity player) {
+	while (GameRules_GetTeamScore(player.GetTeam()) > 0) {
+		AddTeamScore( player.GetTeam(), -1 )
+	}
+	player.SetPlayerGameStat( PGS_ASSAULT_SCORE, 0)
+}
+
 
 void function OnPlayerRespawned(entity player) 
 {
+    SetupLoadouts(player)
     thread OnPlayerRespawned_Threaded(player)
 }
 
@@ -345,15 +551,8 @@ void function OnPlayerRespawned_Threaded( entity player )
 	if ( IsValid( player ) ) 
     {
 		PlayerEarnMeter_SetMode( player, eEarnMeterMode.DISABLED )
-        if (!file.playingplayers.contains(player.GetPlayerName()))
-            player.Die()
-        else 
-        {
-            foreach ( entity weapon in player.GetMainWeapons() )
-		        player.TakeWeaponNow( weapon.GetWeaponClassName() )
-	        foreach ( entity weapon in player.GetOffhandWeapons() )
-		        player.TakeWeaponNow( weapon.GetWeaponClassName() )
-        }
+        if (file.canstart && file.playingplayers.len() > 0 && !file.playingplayers.contains(player.GetPlayerName()))
+            SendHudMessage(player, "You Are Eliminated, Now Playing FFA", -1, 0.2, 255, 255, 255, 255, 0.15, 15, 0.15 )
     }
 }
 
@@ -389,8 +588,10 @@ entity function GetPlayerFromName(string name)
     return null
 }
 
-entity function GetOpponent(entity player) {
-    foreach (key, value in file.matchups) {
+entity function GetOpponent(entity player) 
+{
+    foreach (key, value in file.matchups) 
+    {
 		if (player.GetPlayerName() == key)
 		{
             entity opponent = GetPlayerFromName(value)
@@ -418,4 +619,10 @@ string function GetItemToUse(array<string> list, string pvarslot)
         return list[2 + RandomInt(list.len() - 2)]
 
     return weap
+}
+
+void function SetTimeLeft(float seconds) 
+{
+    SetServerVar( "roundEndTime", seconds)
+    SetServerVar( "gameEndTime", seconds) // client only sees this
 }
