@@ -305,6 +305,7 @@ void function DoMap() {
 
 void function AddMapProp( asset a, vector pos, vector ang, bool mantle, int fade)
 {
+    PrecacheModel(a)
     entity e = CreatePropDynamicLightweight(a, pos, ang, SOLID_VPHYSICS, 6000.0)
     
     if(mantle) e.AllowMantle()
