@@ -369,7 +369,7 @@ void function StartGame()
         wait 10.0
         foreach (entity player in GetPlayerArray())
             SendHudMessage( player, "Waiting For Players (" + GetPlayerArray().len() + "/" + file.maxplayers + ")" , -1, 0.2, 200, 200, 255, 255, 0.15, 999, 0 )
-        SetTimeLeft(Time() + GameMode_GetRoundTimeLimit( GAMETYPE ) * 60.0)
+        SetTimeLeft(Time() + 60.0)
     }
 
     InitPlayers()
@@ -379,7 +379,7 @@ void function InitPlayers()
 {
 	if (file.canstart == true)
 		return
-	SetTimeLeft(Time() + GameMode_GetRoundTimeLimit( GAMETYPE ) * 60.0)
+	SetTimeLeft(Time() + 60.0)
 	//SetRespawnsEnabled( false )
 
 	array<entity> players = GetPlayerArray()
