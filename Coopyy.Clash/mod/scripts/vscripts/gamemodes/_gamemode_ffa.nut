@@ -403,7 +403,7 @@ void function SetupMatches()
 		while (plr1 == plr2 || MatchupContainsString(plr2))
 			plr2 = file.playingplayers[RandomInt(file.playingplayers.len())]
 
-        file.playingplayers[plr1] <- plr2
+        file.matchups[plr1] <- plr2
 
         entity ent1 = GetPlayerFromName(plr1)
         entity ent2 = GetPlayerFromName(plr2)
