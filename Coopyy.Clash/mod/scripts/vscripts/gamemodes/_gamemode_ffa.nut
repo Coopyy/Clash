@@ -147,6 +147,7 @@ void function FFA_Init()
 	    AddCallback_OnPlayerRespawned( OnPlayerRespawned )
 	    AddCallback_OnClientDisconnected( OnPlayerDisconnected )
         AddCallback_GameStateEnter(eGameState.Prematch, SetupRound);
+		AddCallback_GameStateEnter(eGameState.Playing, DoSpawns);
         SetTimeoutWinnerDecisionFunc( TimeoutCheck )
         thread StartGame()
         thread DoMap()
@@ -335,7 +336,7 @@ bool function CommandMatchups(entity player, array<string> args)
 {
 	string s = "Current Matchups\n------------------\n"
 	foreach (key, value in file.matchups)
-		s += key + " vs " + value
+		s += key + " vs " + value + "\n"
 	SendHudMessage(player, s, -1, 0.2, 200, 200, 255, 255, 0.15, 15, 0.15 )
 	return true
 }
@@ -415,8 +416,15 @@ void function SetupMatches()
         if (IsValid(ent2)) 
             SendHudMessage(ent2, "Your Opponent: " + plr1, -1, 0.2, 255, 200, 200, 255, 0.15, 5, 0.15 )
     }
+    wait 5
+    CheckWin(false) 
+}
 
-    int x = 0
+void function DoSpawns() 
+{
+	if (!file.canstart)
+        return
+	int x = 0
     int index = RandomInt(possspawns1.len())
     foreach (key, value in file.matchups) 
     {
@@ -435,9 +443,6 @@ void function SetupMatches()
         }
         x++
     }
-
-    wait 5
-    CheckWin(false) 
 }
 
 void function SetupRound() 
