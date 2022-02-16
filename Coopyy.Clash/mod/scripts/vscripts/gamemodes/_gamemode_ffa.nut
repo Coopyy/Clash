@@ -376,6 +376,8 @@ void function StartGame()
 
 void function InitPlayers()
 {
+	if (file.canstart == true)
+		return
 	SetTimeLeft(Time() + GameMode_GetRoundTimeLimit( GAMETYPE ) * 60.0)
 	//SetRespawnsEnabled( false )
 
@@ -485,6 +487,9 @@ void function CheckWin(bool roundend)
     if (file.matchups.len() == 0)
         return
 
+	if (!file.canstart)
+        return
+
     foreach (key, value in file.matchups) 
     {
         entity player1 = GetPlayerFromName(key)
@@ -492,7 +497,7 @@ void function CheckWin(bool roundend)
 
         if (player1 == null || !IsValid(player1)) // if both players for some reason disconnect, the 2nd one "moves on" to make sure playingplayer count doesnt explode
         {   
-            HandleWin(player2)
+            thread HandleWin(player2)
             if (IsValid(player2)) 
                 SendHudMessage(player2, "Opponent Disconnected. You Win This Round!", -1, 0.2, 200, 255, 200, 255, 0.15, 5, 0.15 )
             file.playingplayers.remove(file.playingplayers.find(key))
@@ -500,14 +505,14 @@ void function CheckWin(bool roundend)
         } 
         else if (!IsAlive(player1))
         {   
-            HandleWin(player2)
+            thread HandleWin(player2)
             SendHudMessage(player1, "You Have Been Eliminated", -1, 0.2, 255, 200, 200, 255, 0.15, 5, 0.15 )
             file.playingplayers.remove(file.playingplayers.find(key))
             delete file.matchups[key]
         }
         else if (player2 == null || !IsValid(player2))
         {   
-            HandleWin(player1)
+            thread HandleWin(player1)
             if (IsValid(player1)) 
                 SendHudMessage(player1, "Opponent Disconnected. You Win This Round!", -1, 0.2, 200, 255, 200, 255, 0.15, 5, 0.15 )
             file.playingplayers.remove(file.playingplayers.find(value))
@@ -515,7 +520,7 @@ void function CheckWin(bool roundend)
         } 
         else if (!IsAlive(player2) || roundend)
         {   
-            HandleWin(player1)
+            thread HandleWin(player1)
             SendHudMessage(player2, "You Have Been Eliminated", -1, 0.2, 255, 200, 200, 255, 0.15, 5, 0.15 )
             file.playingplayers.remove(file.playingplayers.find(value))
             delete file.matchups[key]
