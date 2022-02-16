@@ -416,8 +416,6 @@ void function SetupMatches()
         if (IsValid(ent2)) 
             SendHudMessage(ent2, "Your Opponent: " + plr1, -1, 0.2, 255, 200, 200, 255, 0.15, 5, 0.15 )
     }
-    wait 5
-    CheckWin(false) 
 }
 
 void function DoSpawns() 
@@ -443,6 +441,7 @@ void function DoSpawns()
         }
         x++
     }
+	CheckWin(false)
 }
 
 void function SetupRound() 
