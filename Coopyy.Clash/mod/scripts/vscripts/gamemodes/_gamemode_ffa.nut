@@ -420,6 +420,7 @@ void function SetupMatches()
 
 void function DoSpawns() 
 {
+	SetTimeLeft(Time() + 60.0)
 	if (!file.canstart)
         return
 	int x = 0
@@ -547,7 +548,7 @@ void function HandleWin(entity player)
     wait 5
     if (IsValid(player)) {
         if (IsAlive(player))
-            player.Die()
+            player.SetOrigin(<257.016, 142.381, 1446.95>)
         player.UnfreezeControlsOnServer()
         SendHudMessage(player, "Wait Until This Round is Finished", -1, 0.2, 255, 255, 255, 255, 0.15, 15, 0.15 )
     }
