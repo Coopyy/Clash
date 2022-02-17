@@ -407,14 +407,6 @@ void function SetupMatches()
 			plr2 = file.playingplayers[RandomInt(file.playingplayers.len())]
 
         file.matchups[plr1] <- plr2
-
-        entity ent1 = GetPlayerFromName(plr1)
-        entity ent2 = GetPlayerFromName(plr2)
-
-        if (IsValid(ent1)) 
-            SendHudMessage(ent1, "Your Opponent: " + plr2, -1, 0.2, 255, 200, 200, 255, 0.15, 5, 0.15 )
-        if (IsValid(ent2)) 
-            SendHudMessage(ent2, "Your Opponent: " + plr1, -1, 0.2, 255, 200, 200, 255, 0.15, 5, 0.15 )
     }
 }
 
@@ -430,15 +422,17 @@ void function DoSpawns()
         entity player = GetPlayerFromName(key)
         if (IsValid(player)) 
         {
+            SendHudMessage(player, "Your Opponent: " + key, -1, 0.2, 255, 200, 200, 255, 0.15, 5, 0.15 )
             player.SetOrigin(possspawns1[index] + <0, 0, 500 * x>)
             player.SetAngles(possangles1[index])
         }
 
-        player = GetPlayerFromName(value)
-        if (IsValid(player)) 
+        entity player1 = GetPlayerFromName(value)
+        if (IsValid(player1)) 
         {
-            player.SetOrigin(possspawns2[index] + <0, 0, 500 * x>)
-            player.SetAngles(possangles2[index])
+            SendHudMessage(player1, "Your Opponent: " + value, -1, 0.2, 255, 200, 200, 255, 0.15, 5, 0.15 )
+            player1.SetOrigin(possspawns2[index] + <0, 0, 500 * x>)
+            player1.SetAngles(possangles2[index])
         }
         x++
     }
