@@ -559,8 +559,6 @@ void function OnPlayerKilled( entity victim, entity attacker, var damageInfo )
 	if ( victim != attacker && victim.IsPlayer() && attacker.IsPlayer() && GetGameState() == eGameState.Playing )
 	{
         SetRoundWinningKillReplayAttacker(attacker)
-        if (file.canstart && file.playingplayers.len() > 0) 
-            WipeScore(victim)
 	}
     if (file.canstart && file.playingplayers.len() > 0)
         CheckWin(false)
