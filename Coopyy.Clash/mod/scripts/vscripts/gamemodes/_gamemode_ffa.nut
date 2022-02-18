@@ -379,20 +379,32 @@ void function InitPlayers()
 {
 	if (file.canstart == true)
 		return
-	SetTimeLeft(Time() + 60.0)
-	//SetRespawnsEnabled( false )
 
 	array<entity> players = GetPlayerArray()
 	foreach ( entity plr in players ) {
         file.playingplayers.append(plr.GetPlayerName()) //should(tm) always be 4 8 or 16
     }
+	print("InitPlayers() with " + file.playingplayers.len() + " playing players")
+	SetTimeLeft(Time() + 60.0)
+	//SetRespawnsEnabled( false )
+	
     file.canstart = true
     SetTimeLeft(Time())
+}
+
+void function DebugPrintMatches() {
+	foreach (key, value in file.matchups)   // in theory there will always be correct amount of "playing players" (4, 8, 16)
+		print(key + " vs " + value)
 }
 
 void function SetupMatches() 
 {
     file.matchups.clear()
+	print("SetupMatches() with " + file.playingplayers.len() + " playing players")
+	if (file.playingplayers.len() % 2 != 0) {
+		print("coopy fucked up")
+		return
+	}
     foreach (string plrname in file.playingplayers)  // in theory there will always be correct amount of "playing players" (4, 8, 16)
     {
         if (MatchupContainsString(plrname))
@@ -408,6 +420,7 @@ void function SetupMatches()
 
         file.matchups[plr1] <- plr2
     }
+	DebugPrintMatches()
 }
 
 void function DoSpawns() 
@@ -422,7 +435,7 @@ void function DoSpawns()
         entity player = GetPlayerFromName(key)
         if (IsValid(player)) 
         {
-            SendHudMessage(player, "Your Opponent: " + key, -1, 0.2, 255, 200, 200, 255, 0.15, 5, 0.15 )
+            SendHudMessage(player, "Your Opponent: " + value, -1, 0.2, 255, 200, 200, 255, 0.15, 5, 0.15 )
             player.SetOrigin(possspawns1[index] + <0, 0, 500 * x>)
             player.SetAngles(possangles1[index])
         }
@@ -430,13 +443,12 @@ void function DoSpawns()
         entity player1 = GetPlayerFromName(value)
         if (IsValid(player1)) 
         {
-            SendHudMessage(player1, "Your Opponent: " + value, -1, 0.2, 255, 200, 200, 255, 0.15, 5, 0.15 )
+            SendHudMessage(player1, "Your Opponent: " + key, -1, 0.2, 255, 200, 200, 255, 0.15, 5, 0.15 )
             player1.SetOrigin(possspawns2[index] + <0, 0, 500 * x>)
             player1.SetAngles(possangles2[index])
         }
         x++
     }
-	CheckWin(false)
 }
 
 void function SetupRound() 
@@ -525,7 +537,6 @@ void function CheckWin(bool roundend)
             delete file.matchups[key]
         }
     }
-
     if (!roundend && file.matchups.len() == 0)
         SetTimeLeft(Time()) //ghetto way to end round but w/e
 }
