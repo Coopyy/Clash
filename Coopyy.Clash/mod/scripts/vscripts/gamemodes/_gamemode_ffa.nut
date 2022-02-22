@@ -385,6 +385,7 @@ void function InitPlayers()
         file.playingplayers.append(plr.GetPlayerName()) //should(tm) always be 4 8 or 16
     }
 	print("InitPlayers() with " + file.playingplayers.len() + " playing players")
+	DebugPrintPlayers()
 	SetTimeLeft(Time() + 60.0)
 	//SetRespawnsEnabled( false )
 	
@@ -397,10 +398,16 @@ void function DebugPrintMatches() {
 		print(key + " vs " + value)
 }
 
+void function DebugPrintPlayers() {
+	foreach (string value in file.playingplayers)   // in theory there will always be correct amount of "playing players" (4, 8, 16)
+		print(" coopdebugprint: " + value)
+}
+
 void function SetupMatches() 
 {
     file.matchups.clear()
 	print("SetupMatches() with " + file.playingplayers.len() + " playing players")
+	DebugPrintPlayers()
 	if (file.playingplayers.len() % 2 != 0) {
 		print("coopy fucked up")
 		return
@@ -410,21 +417,19 @@ void function SetupMatches()
         if (MatchupContainsString(plrname))
             continue
 
-        string plr1 = file.playingplayers[RandomInt(file.playingplayers.len())]
-		while (MatchupContainsString(plr1))
-			plr1 = file.playingplayers[RandomInt(file.playingplayers.len())]
+        string plr2 = GetAvailablePlayer(plrname)
+		if (plr2 == null)
+			continue
 
-        string plr2 = file.playingplayers[RandomInt(file.playingplayers.len())]
-		while (plr1 == plr2 || MatchupContainsString(plr2))
-			plr2 = file.playingplayers[RandomInt(file.playingplayers.len())]
-
-        file.matchups[plr1] <- plr2
+        file.matchups[plrname] <- plr2
     }
 	DebugPrintMatches()
+	DebugPrintPlayers()
 }
 
 void function DoSpawns() 
 {
+	DebugPrintPlayers()
 	SetTimeLeft(Time() + 60.0)
 	if (!file.canstart)
         return
@@ -628,28 +633,6 @@ entity function GetPlayerFromName(string name)
     return null
 }
 
-entity function GetOpponent(entity player) 
-{
-    foreach (key, value in file.matchups) 
-    {
-		if (player.GetPlayerName() == key)
-		{
-            entity opponent = GetPlayerFromName(value)
-            if (IsValid(opponent))
-                return opponent
-        }
-        else if (player.GetPlayerName() == value)
-		{
-            entity opponent = GetPlayerFromName(key)
-            if (IsValid(opponent))
-                return opponent
-        }
-	}
-
-    return null
-}
-
-
 string function GetItemToUse(array<string> list, string pvarslot) 
 {
     int weaponindex
@@ -669,4 +652,16 @@ void function SetTimeLeft(float seconds)
 {
     SetServerVar( "roundEndTime", seconds)
     SetServerVar( "gameEndTime", seconds) // client only sees this
+}
+
+string function GetAvailablePlayer(string exclude) 
+{
+	foreach (string plrname in file.playingplayers)  // in theory there will always be correct amount of "playing players" (4, 8, 16)
+    {
+		if (plrname == exclude || MatchupContainsString(plrname))
+			continue
+		return plrname
+	}
+
+	return null
 }
